@@ -27,7 +27,14 @@ void eventsPrintJson(FormattedPrint& stream, int ix) {
   stream.printf(F("{\"i\":%i,\"t\":%lu,\"v1\":%d,\"v2\":%d,\"c\":%u}"), ix, events[ix].timestamp, events[ix].value1, events[ix].value2, events[ix].count);
 }
 ```
+## Comments
 
 The StreamLib library is for now only for AVR platform, because the implementation of FormattedPrint's printf uses AVR implementation of FILE with vfprintf. 
+
+Install the library in Library Manager and you can find basic examples in Examples menu in IDE.
+
+For some real-sketch examples see my Regulator project: [WebServer.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WebServer.ino) for Web and REST server; [WemoInsight.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WemoInsight.ino) for SOAP XML HTTP request.
+
+
 
  
