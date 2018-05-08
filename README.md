@@ -29,7 +29,7 @@ void eventsPrintJson(FormattedPrint& stream, int ix) {
 ```
 ## Comments
 
-The StreamLib library is for now only for AVR platform, because the implementation of FormattedPrint's printf uses AVR implementation of FILE with vfprintf. 
+FormattedPrint's printf functions are for now only for AVR and esp8266. esp8266 has printf, but not for F() macro (there is printf_P for PROGMEM string, which needs to cast the F macro result to const char*). 
 
 Install the library in Library Manager and you can find basic examples in Examples menu in IDE.
 

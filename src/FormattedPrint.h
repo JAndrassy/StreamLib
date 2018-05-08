@@ -25,9 +25,13 @@ class FormattedPrint : public Print {
 
 public:
 
-  void printf(const char *fmt, ... );
+#if defined(__AVR__) || defined(ESP8266)
 
-  void printf(const __FlashStringHelper *fmt, ... );
+  size_t printf(const char *fmt, ... );
+
+  size_t printf(const __FlashStringHelper *fmt, ... );
+
+#endif
 
 };
 
