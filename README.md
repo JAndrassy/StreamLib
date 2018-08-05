@@ -29,8 +29,6 @@ void eventsPrintJson(FormattedPrint& stream, int ix) {
 ```
 ## Comments
 
-FormattedPrint's printf functions are for now only for AVR and esp8266. esp8266 has printf, but not for F() macro (there is printf_P for PROGMEM string, which needs to cast the F macro result to const char*). 
-
 Install the library in Library Manager and you can find basic examples in Examples menu in IDE.
 
 For some real-sketch examples see my Regulator project: [WebServer.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WebServer.ino) for Web and REST server; [WemoInsight.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WemoInsight.ino) for SOAP XML HTTP request.

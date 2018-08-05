@@ -17,6 +17,8 @@
  */
 
 #include "FormattedPrint.h"
+#include <stdio.h>
+#include <stdarg.h>
 
 #ifdef __AVR__
 int adapterPut(char c, FILE* _adapter) {
@@ -44,7 +46,7 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   va_end(args);
   return len;
 }
-#elif ESP8266
+#else
 
 ssize_t adapterWrite(void* p, const char *buf, size_t n) {
   return ((Print*) p) -> write(buf, n);
@@ -67,6 +69,7 @@ size_t FormattedPrint::printf(const char *fmt, ...) {
   return len;
 }
 
+#ifdef ESP8266
 size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   size_t fmtLen = strlen_P((PGM_P) fmt);
   char format[fmtLen + 1];
@@ -79,5 +82,15 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   va_end(args);
   return len;
 }
-
+#else
+size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
+  va_list args;
+  va_start(args, fmt);
+  FILE* adapter = openAdapter(this);
+  size_t len = vfprintf(adapter, (PGM_P) fmt, args);
+  fclose(adapter);
+  va_end(args);
+  return len;
+}
+#endif
 #endif
