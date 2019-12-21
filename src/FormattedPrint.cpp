@@ -48,21 +48,14 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
 }
 #else
 
-ssize_t adapterWrite(void* p, const char *buf, size_t n) {
+int adapterWrite(void* p, const char *buf, int n) {
   return ((Print*) p) -> write(buf, n);
-}
-
-FILE* openAdapter(void *p) {
-  cookie_io_functions_t fncs; // @suppress("Type cannot be resolved")
-  fncs.write = adapterWrite; // @suppress("Field cannot be resolved")
-  fncs.close = NULL; // @suppress("Field cannot be resolved")
-  return fopencookie(p, "w", fncs); // @suppress("Function cannot be resolved")
 }
 
 size_t FormattedPrint::printf(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
-  FILE* adapter = openAdapter(this);
+  FILE* adapter = funopen(this, nullptr, adapterWrite, nullptr, nullptr);
   size_t len = vfprintf(adapter, fmt, args);
   fclose(adapter);
   va_end(args);
@@ -76,7 +69,7 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   strcpy_P(format, (PGM_P) fmt);
   va_list args;
   va_start(args, fmt);
-  FILE* adapter = openAdapter(this);
+  FILE* adapter = funopen(this, nullptr, adapterWrite, nullptr, nullptr);
   size_t len = vfprintf(adapter, format, args);
   fclose(adapter);
   va_end(args);
@@ -86,7 +79,7 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
 size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   va_list args;
   va_start(args, fmt);
-  FILE* adapter = openAdapter(this);
+  FILE* adapter = funopen(this, nullptr, adapterWrite, nullptr, nullptr);
   size_t len = vfprintf(adapter, (PGM_P) fmt, args);
   fclose(adapter);
   va_end(args);
