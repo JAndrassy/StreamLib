@@ -48,7 +48,7 @@ void ChunkedPrint::flush() {
   if (!pos)
     return;
   byte l = (firstChunk ? 2 : 4) + (pos > 0xFF ? 3 : (pos <= 0xF ? 1 : 2));
-  sprintf_P(buffer - l, (const char*) (firstChunk ? F("%x\r") : F("\r\n%x\r")), pos);
+  sprintf_P(buffer - l, (firstChunk ? PSTR("%x\r") : PSTR("\r\n%x\r")), pos);
   (buffer - 1)[0] = '\n';
   if (firstChunk) {
     firstChunk = false;
