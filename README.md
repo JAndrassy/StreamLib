@@ -27,6 +27,34 @@ void eventsPrintJson(PrintPlus& stream, int ix) {
   stream.printf(F("{\"i\":%i,\"t\":%lu,\"v1\":%d,\"v2\":%d,\"c\":%u}"), ix, events[ix].timestamp, events[ix].value1, events[ix].value2, events[ix].count);
 }
 ```
+## Copy bytes or characters from a Stream
+
+The PrintPlus class has functions to copy from a Stream class object. Examples of types inherited from Stream are HardwareSerial, SoftwareSerial, File, EthernetClient, WiFiClient, ...
+
+Example:
+```
+  response.copyAvailableFrom(file);
+  response.flush();
+  file.close();
+  if (response.getWriteError()) {
+    Serial.println("write error");
+  }
+``` 
+
+There is a pair of functions copyFrom and copyFromUntil which wait for the next byte until timeout (set on the source Stream) and a copyAvailableFrom functions which copies only data immediately available without blocking.
+```
+  uint32_t copyFrom(Stream& stream, uint32_t limit = 0)
+  uint32_t copyFromUntil(char terminator, Stream& stream, uint32_t limit = 0);
+  uint32_t copyAvailableFrom(Stream& stream, uint32_t limit = 0)
+```
+parameters:
+* `stream` is the source stream
+* `terminator` is a character on which the reading stops. the character will not be copied but will be removed from the source stream (same as Stream::readBytesUntil and Stream::readStringUntil)
+* `limit` is the maximum count of bytes/characters to copy. it is an optional parameter. 0 means unlimited.
+
+Return value is the count of copied bytes. 
+
+
 ## Comments
 
 Install the library in Library Manager and you can find basic examples in Examples menu in IDE.

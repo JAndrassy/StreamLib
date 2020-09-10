@@ -87,3 +87,40 @@ size_t PrintPlus::printf(const __FlashStringHelper *fmt, ...) {
 }
 #endif
 #endif
+
+
+uint32_t PrintPlus::copyFrom(Stream& stream, uint32_t limit) {
+  return copyFromUntil(0, stream, limit);
+}
+
+uint32_t PrintPlus::copyAvailableFrom(Stream& stream, uint32_t limit) {
+  uint32_t length = 0;
+  while (stream.available() && (!limit || length < limit)) {
+    if (!write(stream.read()) || getWriteError()) {
+      if (!getWriteError()) {
+        setWriteError();
+      }
+      break;
+    }
+    length++;
+  }
+  return length;
+}
+
+uint32_t PrintPlus::copyFromUntil(char terminator, Stream& stream, uint32_t limit) {
+  byte b;
+  uint32_t length = 0;
+  while (stream.readBytes(&b, 1) && (!limit || length < limit)) {
+    if (terminator && b == terminator)
+      break;
+    if (!write(b) || getWriteError()) {
+      if (!getWriteError()) {
+        setWriteError();
+      }
+      break;
+    }
+    length++;
+  }
+  return length;
+}
+

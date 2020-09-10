@@ -43,6 +43,13 @@ void setup()
   sb.reset();
   sb.printf(F("Formatted: %s;%c;%05d\r\n"), s, c, i);
   Serial.println(buff);
+
+  sb.reset();
+  Serial.println("Enter some short text please");
+  sb.print("You entered: ");
+  while (!Serial.available());
+  sb.copyFromUntil('\n', Serial);
+  Serial.println(buff);
 }
 
 void loop()
