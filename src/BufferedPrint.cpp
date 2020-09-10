@@ -35,6 +35,24 @@ size_t BufferedPrint::write(uint8_t b) {
 void BufferedPrint::flush() {
   if (!pos)
     return;
-  target.write(buffer, pos);
-  pos = 0;
+  size_t l = target.write(buffer, pos);
+  pos -= l;
+  if (pos > 0 && l > 0) { // should not happen often
+    for (size_t i = 0; i < pos; i++) {
+      buffer[i] = buffer[i + l];
+    }
+  }
+  if (target.getWriteError()) {
+    setWriteError();
+  }
 }
+
+int BufferedPrint::availableForWrite() {
+  int a = target.availableForWrite();
+  if (!a) // target doesn't report aFW or is really full
+    return size - pos; // then return space left in our buffer
+  a = a - pos; // what will be left in target after our flush()
+  return a < 0 ? 0 : a;
+}
+
+

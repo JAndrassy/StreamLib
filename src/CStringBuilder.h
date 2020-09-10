@@ -40,6 +40,8 @@ public:
 
   using Print::write; // pull in write(str) and write(buf, size) from Print
 
+  virtual int availableForWrite();
+
 };
 
 #endif

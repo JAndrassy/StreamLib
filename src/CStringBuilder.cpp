@@ -51,3 +51,7 @@ size_t CStringBuilder::write(uint8_t b) {
   buffer[pos] = 0;
   return 1;
 }
+
+int CStringBuilder::availableForWrite() {
+  return size - pos;
+}

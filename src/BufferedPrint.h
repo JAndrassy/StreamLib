@@ -38,6 +38,8 @@ public:
 
   virtual void flush();
 
+  virtual int availableForWrite();
+
 };
 
 #endif
