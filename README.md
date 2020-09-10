@@ -18,12 +18,12 @@ If the data to be send as response or in POST request wouldn't fit into availabl
 
 ## Formatted printing
 
-The Arduino Print class for AVR doesn't have [printf function](http://www.cplusplus.com/reference/cstdio/printf/). The reasons for [not adding them](https://github.com/arduino/Arduino/pull/5938) are unknown. The Arduino esp8266 core has them. To fill this gap, the classes of this library have a common base class FormattedPrint which extends the core Print class with two printf methods, one for formatting string from RAM and second for formatting string wrapped into F() macro for use from program memory.
+The Arduino Print class for AVR doesn't have [printf function](http://www.cplusplus.com/reference/cstdio/printf/). The reasons for [not adding them](https://github.com/arduino/Arduino/pull/5938) are unknown. The Arduino esp8266 core has them. To fill this gap, the classes of this library have a common base class PrintPlus which extends the core Print class with two printf methods, one for formatting string from RAM and second for formatting string wrapped into F() macro for use from program memory.
 
-If you send a stream to a function and the function benefits from printf, use FormattedPrint as a parameter type. The function then can use the printf methods and you can call the function with BufferedPrint, ChunkedPrint or CStringBuilder.
+If you send a stream to a function and the function benefits from printf, use PrintPlus as a parameter type. The function then can use the printf methods and you can call the function with BufferedPrint, ChunkedPrint or CStringBuilder.
 
 ```
-void eventsPrintJson(FormattedPrint& stream, int ix) {
+void eventsPrintJson(PrintPlus& stream, int ix) {
   stream.printf(F("{\"i\":%i,\"t\":%lu,\"v1\":%d,\"v2\":%d,\"c\":%u}"), ix, events[ix].timestamp, events[ix].value1, events[ix].value2, events[ix].count);
 }
 ```

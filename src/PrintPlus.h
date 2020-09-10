@@ -16,12 +16,12 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FORMATTEDPRINT_H_
-#define _FORMATTEDPRINT_H_
+#ifndef _PRINTPLUS_H_
+#define _PRINTPLUS_H_
 
 #include <Arduino.h>
 
-class FormattedPrint : public Print {
+class PrintPlus : public Print {
 
 public:
 

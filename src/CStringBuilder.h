@@ -19,9 +19,9 @@ repository https://github.com/jandrassy
 #ifndef _CSTRINGBUILDER_H_
 #define _CSTRINGBUILDER_H_
 
-#include "FormattedPrint.h"
+#include "PrintPlus.h"
 
-class CStringBuilder : public FormattedPrint {
+class CStringBuilder : public PrintPlus {
 
   char* buffer;
   size_t size;

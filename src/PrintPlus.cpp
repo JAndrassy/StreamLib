@@ -16,7 +16,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "FormattedPrint.h"
+#include "PrintPlus.h"
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -25,7 +25,7 @@ int adapterPut(char c, FILE* _adapter) {
   return ((Print*) _adapter->udata) -> write(c);
 }
 
-size_t FormattedPrint::printf(const char *fmt, ...) {
+size_t PrintPlus::printf(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
   FILE adapter;
@@ -36,7 +36,7 @@ size_t FormattedPrint::printf(const char *fmt, ...) {
   return len;
 }
 
-size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
+size_t PrintPlus::printf(const __FlashStringHelper *fmt, ...) {
   va_list args;
   va_start(args, fmt);
   FILE adapter;
@@ -52,7 +52,7 @@ int adapterWrite(void* p, const char *buf, int n) {
   return ((Print*) p) -> write(buf, n);
 }
 
-size_t FormattedPrint::printf(const char *fmt, ...) {
+size_t PrintPlus::printf(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
   FILE* adapter = funopen(this, nullptr, adapterWrite, nullptr, nullptr);
@@ -63,7 +63,7 @@ size_t FormattedPrint::printf(const char *fmt, ...) {
 }
 
 #ifdef ESP8266
-size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
+size_t PrintPlus::printf(const __FlashStringHelper *fmt, ...) {
   size_t fmtLen = strlen_P((PGM_P) fmt);
   char format[fmtLen + 1];
   strcpy_P(format, (PGM_P) fmt);
@@ -76,7 +76,7 @@ size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
   return len;
 }
 #else
-size_t FormattedPrint::printf(const __FlashStringHelper *fmt, ...) {
+size_t PrintPlus::printf(const __FlashStringHelper *fmt, ...) {
   va_list args;
   va_start(args, fmt);
   FILE* adapter = funopen(this, nullptr, adapterWrite, nullptr, nullptr);

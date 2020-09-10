@@ -19,9 +19,9 @@ repository https://github.com/jandrassy
 #ifndef _BUFFEREDPRINT_H_
 #define _BUFFEREDPRINT_H_
 
-#include "FormattedPrint.h"
+#include "PrintPlus.h"
 
-class BufferedPrint : public FormattedPrint {
+class BufferedPrint : public PrintPlus {
 
 protected:
   Print &target;
