@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Juraj Andrássy
+Copyright (C) 2021 Juraj Andrássy
 repository https://github.com/jandrassy
 
     This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,37 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STREAMLIB_H_
-#define _STREAMLIB_H_
+#ifndef _CHUNKEDREADER_H_
+#define _CHUNKEDREADER_H_
 
-#include "BufferedPrint.h"
-#include "ChunkedPrint.h"
-#include "CStringBuilder.h"
-#include "ChunkedStreamReader.h"
-#include "StringReadStream.h"
+#include <Arduino.h>
+
+class ChunkedStreamReader : public Stream {
+
+protected:
+  Stream& input;
+  unsigned long counter = 0;
+
+public:
+  ChunkedStreamReader(Stream & input);
+
+  virtual int available();
+  virtual int read();
+  virtual int peek();
+
+  unsigned long chunkAvailable();
+
+  virtual size_t write(uint8_t b) {
+    return 0;
+  }
+
+#ifdef ESP32 // :-(
+  virtual void flush() {}
+#endif
+
+private:
+  void readChunkSize();
+};
+
+
 #endif

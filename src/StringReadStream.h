@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Juraj Andrássy
+Copyright (C) 2021 Juraj Andrássy
 repository https://github.com/jandrassy
 
     This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,31 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STREAMLIB_H_
-#define _STREAMLIB_H_
+#include <Arduino.h>
 
-#include "BufferedPrint.h"
-#include "ChunkedPrint.h"
-#include "CStringBuilder.h"
-#include "ChunkedStreamReader.h"
-#include "StringReadStream.h"
+class StringReadStream: public Stream {
+
+protected:
+  const char *str;
+  const bool progmem;
+  int length;
+  int pos = 0;
+
+public:
+
+  StringReadStream(const char *str, bool progmem = false);
+  StringReadStream(__FlashStringHelper* str);
+  StringReadStream(String& str); // the String content is not copied!
+
+  virtual int available();
+  virtual int read();
+  virtual int peek();
+
+  virtual size_t write(uint8_t b) {
+    return 0;
+  }
+
+#ifdef ESP32 // :-(
+  virtual void flush() {}
 #endif
+};

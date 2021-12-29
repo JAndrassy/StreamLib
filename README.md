@@ -16,6 +16,17 @@ This library offers two solutions to this problem. If the data can be prepared t
 
 If the data to be send as response or in POST request wouldn't fit into available memory, ChunkedPrint can be used with HTTP chunked Transfer-Encoding. And ChunkedPrint is an extension of BufferedPrint so your page shows up in browser quickly and the Web Server handles your request without hesitating. 
 
+## Decode HTTP chunked transfer encoding
+
+A HTTP server can send data with "Transfer-Encoding: chunked". This format has chunk sizes mixed into returned data.
+
+The ChunkedStreamReader class can decode this format and provide the original data sent by the server. See ChunkedReadExample and Advanced/ReadChunkedJSON examples.
+
+ChunkedStreamReader has a function `chunkedAvailable()`. This will return the number of bytes remaining to read from current chunk. It will be larger than zero until end of the data is reached (the 0 terminating the chunked encoding). 
+
+While the size of the chunk is known, the data of the chunk may be not received yet. The standard `available()` function returns count of bytes available for immediate read. In ChunkedStreamReader `available()` returns `min(chunkedAvailable(), input.available())` because input.available() may count bytes filtered out by ChunkedStreamReader.
+
+
 ## Formatted printing
 
 The Arduino Print class for AVR doesn't have [printf function](http://www.cplusplus.com/reference/cstdio/printf/). The reasons for [not adding them](https://github.com/arduino/Arduino/pull/5938) are unknown. The Arduino esp8266 core has them. To fill this gap, the classes of this library have a common base class PrintPlus which extends the core Print class with two printf methods, one for formatting string from RAM and second for formatting string wrapped into F() macro for use from program memory.
@@ -54,12 +65,27 @@ parameters:
 
 Return value is the count of copied bytes. 
 
+## Providing string where Stream is required
+
+The StringReaderStream class can wrap a string or String into a Stream implementation. The string can be in PROGMEM. This allows to provide a string where Stream is required. For example it can be used to feed data from PROGMEM to libraries  where PROGMEM string is not supported, but an implementation to read a Stream is provided.
+
+The ChunkedReadExample uses StringReaderStream to simulate a network client.
 
 ## Comments
 
 Install the library in Library Manager and you can find basic examples in Examples menu in IDE.
 
 For some real-sketch examples see my Regulator project: [WebServer.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WebServer.ino) for Web and REST server; [WemoInsight.ino](https://github.com/jandrassy/Regulator/blob/master/Regulator/WemoInsight.ino) for SOAP XML HTTP request.
+
+## Print and Stream class hierarchy
+
+### Common classes
+
+![Common derived classes](img/streams-common.png)
+
+### StreamLib classes
+
+![StreamLib classes](img/StreamLib.png)
 
 
 
