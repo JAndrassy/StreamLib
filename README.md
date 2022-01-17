@@ -71,6 +71,15 @@ The StringReaderStream class can wrap a string or String into a Stream implement
 
 The ChunkedReadExample uses StringReaderStream to simulate a network client.
 
+## Printing to two outputs at once a.k.a 'tee'
+
+The TeePrint class allows to print to two outputs at once. It inherits from PrintPlus so printf and mass copy functions are available. 
+
+Example:
+```
+TeePrint tee(Serial, TelnetStream);
+``` 
+
 ## Comments
 
 Install the library in Library Manager and you can find basic examples in Examples menu in IDE.

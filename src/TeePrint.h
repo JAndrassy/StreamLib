@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2021 Juraj Andrássy
+Copyright (C) 2022 Juraj Andrássy
 repository https://github.com/jandrassy
 
     This program is free software: you can redistribute it and/or modify
@@ -16,36 +16,40 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef STRINGREADSTREAM_H_
-#define STRINGREADSTREAM_H_
+#ifndef TEEPRINT_H_
+#define TEEPRINT_H_
 
 #include <Arduino.h>
 
-class StringReadStream: public Stream {
+class TeePrint: public PrintPlus {
 
-protected:
-  const char *str;
-  const bool progmem;
-  int length;
-  int pos = 0;
+  Print &out1;
+  Print &out2;
 
 public:
 
-  StringReadStream(const char *str, bool progmem = false);
-  StringReadStream(__FlashStringHelper* str);
-  StringReadStream(String& str); // the String content is not copied!
-
-  virtual int available();
-  virtual int read();
-  virtual int peek();
+  TeePrint(Print &_out1, Print &_out2) : out1(_out1), out2(_out2) {}
 
   virtual size_t write(uint8_t b) {
-    return 0;
+    out1.write(b);
+    return out2.write(b);
   }
 
-#ifdef ESP32 // :-(
-  virtual void flush() {}
-#endif
+  virtual size_t write(const uint8_t *buffer, size_t size) {
+    out1.write(buffer, size);
+    return out2.write(buffer, size);
+  }
+
+
+  virtual int availableForWrite() {
+  	return min(out1.availableForWrite(), out2.availableForWrite());
+  }
+
+  virtual void flush() {
+    out1.flush();
+    out2.flush();
+  }
+
 };
 
 #endif
