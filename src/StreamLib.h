@@ -19,9 +19,10 @@ repository https://github.com/jandrassy
 #ifndef _STREAMLIB_H_
 #define _STREAMLIB_H_
 
-#include "BufferedPrint.h"
-#include "ChunkedPrint.h"
-#include "CStringBuilder.h"
-#include "ChunkedStreamReader.h"
-#include "StringReadStream.h"
+#include <BufferedPrint.h>
+#include <ChunkedPrint.h>
+#include <CStringBuilder.h>
+#include <ChunkedStreamReader.h>
+#include <StringReadStream.h>
+#include <BufferedClientReader.h>
 #endif

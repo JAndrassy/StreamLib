@@ -73,6 +73,27 @@ The StringReaderStream class can wrap a string or String into a Stream implement
 
 The ChunkedReadExample uses StringReaderStream to simulate a network client.
 
+## Reading networking Client with buffer
+
+Many networking libraries don't buffer the read from the networking shield or module over SPI. It is more efficient to read more bytes at once than requesting a couple of bytes many times.
+
+The timed and parsing functions of Stream use byte by byte reading and networking libraries without read buffering then request one byte at time over SPI.
+
+The BufferedClientReader class can help to speed up reading of data received from network by the networking shield or module. BufferedClientReader uses Client::read(buff, size) method to read at once as much available bytes as possible into the buffer, then serves the bytes from the buffer until the buffer is empty and then at next read it again requests the data into the buffer.
+
+Example of creating BufferedClientReader over networking Client:
+```  
+uint8_t buffer[32];
+BufferedClientReader bc(client, buffer, sizeof(buffer));
+```
+BufferedClientReader implements the Client base class so it can be used where Client is required while it wraps the true network client object.
+```
+EthernetClient ethClient;
+uint8_t buffer[32];
+BufferedClientReader bcr(ethClient, buffer, sizeof buffer);
+HttpClient client(bcr, server, 80);
+```
+
 ## Printing to two outputs at once a.k.a 'tee'
 
 The TeePrint class allows to print to two outputs at once. It inherits from PrintPlus so printf and mass copy functions are available. 
