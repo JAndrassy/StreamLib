@@ -94,6 +94,15 @@ BufferedClientReader bcr(ethClient, buffer, sizeof buffer);
 HttpClient client(bcr, server, 80);
 ```
 
+Class BufferedClient adds write buffering to BufferedClientReader using embedded BufferedPrint.
+```
+EthernetClient ethClient;
+uint8_t readBuffer[32];
+uint8_t writeBuffer[16];
+BufferedClient bc(ethClient, readBuffer, sizeof readBuffer, writeBuffer, sizeof writeBuffer);
+HttpClient client(bc, server, 80);
+```
+
 ## Printing to two outputs at once a.k.a 'tee'
 
 The TeePrint class allows to print to two outputs at once. It inherits from PrintPlus so printf and mass copy functions are available. 

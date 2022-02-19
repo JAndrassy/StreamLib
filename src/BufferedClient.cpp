@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Juraj Andrássy
+Copyright (C) 2022 Juraj Andrássy
 repository https://github.com/jandrassy
 
     This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,25 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STREAMLIB_H_
-#define _STREAMLIB_H_
-
-#include <BufferedPrint.h>
-#include <ChunkedPrint.h>
-#include <CStringBuilder.h>
-#include <ChunkedStreamReader.h>
-#include <StringReadStream.h>
-#include <TeePrint.h>
-#include <BufferedClientReader.h>
 #include <BufferedClient.h>
-#endif
+
+BufferedClient::BufferedClient(Client& _client, uint8_t* readBuffer, size_t readBufferSize, uint8_t* writeBuffer, size_t writeBufferSize) :
+    BufferedClientReader(_client, readBuffer, readBufferSize), bp(_client, (char*) writeBuffer, writeBufferSize) {
+}
+
+size_t BufferedClient::write(uint8_t b) {
+  return bp.write(b);
+}
+
+size_t BufferedClient::write(const uint8_t *buf, size_t size) {
+  return bp.write(buf, size);
+}
+
+void BufferedClient::flush() {
+  bp.flush();
+}
+
+int BufferedClient::availableForWrite() {
+  return bp.availableForWrite();
+}
+

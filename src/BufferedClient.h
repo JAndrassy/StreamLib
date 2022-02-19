@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Juraj Andrássy
+Copyright (C) 2022 Juraj Andrássy
 repository https://github.com/jandrassy
 
     This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,26 @@ repository https://github.com/jandrassy
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STREAMLIB_H_
-#define _STREAMLIB_H_
+#ifndef _BUFFEREDCLIENT_H_
+#define _BUFFEREDCLIENT_H_
 
-#include <BufferedPrint.h>
-#include <ChunkedPrint.h>
-#include <CStringBuilder.h>
-#include <ChunkedStreamReader.h>
-#include <StringReadStream.h>
-#include <TeePrint.h>
-#include <BufferedClientReader.h>
-#include <BufferedClient.h>
+#include <Arduino.h>
+#include "BufferedClientReader.h"
+#include "BufferedPrint.h"
+
+class BufferedClient : public BufferedClientReader {
+
+protected:
+  BufferedPrint bp;
+
+public:
+  BufferedClient(Client & client, uint8_t* readBuffer, size_t readBufferSize, uint8_t* writeBuffer, size_t writeBufferSize);
+
+  virtual size_t write(uint8_t b);
+  virtual size_t write(const uint8_t *buf, size_t size);
+  virtual void flush();
+  virtual int availableForWrite();
+
+};
+
 #endif
