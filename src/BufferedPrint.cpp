@@ -32,6 +32,17 @@ size_t BufferedPrint::write(uint8_t b) {
   return 1;
 }
 
+size_t BufferedPrint::write(const uint8_t *buf, size_t length) {
+  for (size_t i = 0; i < length; i++) {
+    if (pos == 0 && length - i >= size)
+      return target.write(buf + i, length - i); // skip the internal buffer
+    if (!write(buf[i]))
+      return i;
+  }
+  return length;
+}
+
+
 void BufferedPrint::flush() {
   if (!pos)
     return;
