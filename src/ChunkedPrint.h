@@ -27,6 +27,7 @@ class ChunkedPrint : public BufferedPrint {
   boolean firstChunk = false;
 
 public:
+  ChunkedPrint(Print &target, uint8_t* buffer, size_t size);
   ChunkedPrint(Print &target, char* buffer, size_t size);
 
   void begin();

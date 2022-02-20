@@ -25,15 +25,16 @@ class BufferedPrint : public PrintPlus {
 
 protected:
   Print &target;
-  char* buffer;
+  uint8_t* buffer;
   size_t size;
   size_t pos;
 
 public:
+  BufferedPrint(Print &target, uint8_t* buffer, size_t size);
   BufferedPrint(Print &target, char* buffer, size_t size);
 
   virtual size_t write(uint8_t b);
-  virtual size_t write(const uint8_t *buffer, size_t size);
+  virtual size_t write(const uint8_t *buffer, size_t length);
 
   using Print::write; // pull in write(str) and write(buf, size) from Print
 

@@ -20,8 +20,12 @@ repository https://github.com/jandrassy
 
 #define ENCODING_RESERVE 7
 
-ChunkedPrint::ChunkedPrint(Print &target, char* buffer, size_t size)
+ChunkedPrint::ChunkedPrint(Print &target, uint8_t* buffer, size_t size)
   : BufferedPrint(target, buffer + ENCODING_RESERVE, size - ENCODING_RESERVE) {
+}
+
+ChunkedPrint::ChunkedPrint(Print &target, char* buffer, size_t size)
+  : BufferedPrint(target, (uint8_t*) buffer + ENCODING_RESERVE, size - ENCODING_RESERVE) {
 }
 
 void ChunkedPrint::begin() {

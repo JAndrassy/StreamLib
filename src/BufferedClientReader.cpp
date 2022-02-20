@@ -66,9 +66,9 @@ int BufferedClientReader::peek() {
 }
 
 int BufferedClientReader::read(uint8_t *buf, size_t _size) {
-  if (pos == length && (_size >= size || _size > client.available()))
+  if (pos == length && (_size >= size || _size > (size_t) client.available()))
     return client.read(buf, _size); // skip the internal buffer
-  for (int i = 0; i < _size; i++) {
+  for (size_t i = 0; i < _size; i++) {
     int b = read();
     if (b == -1)
       return i;

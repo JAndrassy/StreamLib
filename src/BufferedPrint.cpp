@@ -18,10 +18,14 @@
 
 #include "BufferedPrint.h"
 
-BufferedPrint::BufferedPrint(Print& _target, char* _buffer, size_t _size) : target(_target) {
+BufferedPrint::BufferedPrint(Print& _target, uint8_t* _buffer, size_t _size) : target(_target) {
   buffer = _buffer;
   size = _size;
   pos = 0;
+}
+
+BufferedPrint::BufferedPrint(Print& target, char* buffer, size_t size) :
+    BufferedPrint(target, (uint8_t*) buffer, size ) {
 }
 
 size_t BufferedPrint::write(uint8_t b) {

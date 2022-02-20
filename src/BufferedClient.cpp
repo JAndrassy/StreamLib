@@ -19,7 +19,7 @@ repository https://github.com/jandrassy
 #include <BufferedClient.h>
 
 BufferedClient::BufferedClient(Client& _client, uint8_t* readBuffer, size_t readBufferSize, uint8_t* writeBuffer, size_t writeBufferSize) :
-    BufferedClientReader(_client, readBuffer, readBufferSize), bp(_client, (char*) writeBuffer, writeBufferSize) {
+    BufferedClientReader(_client, readBuffer, readBufferSize), bp(_client, writeBuffer, writeBufferSize) {
 }
 
 size_t BufferedClient::write(uint8_t b) {
