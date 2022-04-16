@@ -14,7 +14,7 @@
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-char server[] = "arduino.cc";    // name address  (using DNS)
+char server[] = "arduino.tips";    // name address  (using DNS)
 
 EthernetClient ethClient;
 uint8_t readBuffer[32];
