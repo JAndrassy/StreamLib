@@ -48,6 +48,18 @@ size_t PrintPlus::printf(const __FlashStringHelper *fmt, ...) {
 }
 #else
 
+#ifdef ARDUINO_ARCH_RENESAS
+extern "C" {
+FILE  *_EXFUN(funopen,(const _PTR __cookie,
+    int (*__readfn)(_PTR __cookie, char *__buf,
+        _READ_WRITE_BUFSIZE_TYPE __n),
+    int (*__writefn)(_PTR __cookie, const char *__buf,
+         _READ_WRITE_BUFSIZE_TYPE __n),
+    fpos_t (*__seekfn)(_PTR __cookie, fpos_t __off, int __whence),
+    int (*__closefn)(_PTR __cookie)));
+}
+#endif
+
 int adapterWrite(void* p, const char *buf, int n) {
   return ((Print*) p) -> write(buf, n);
 }
