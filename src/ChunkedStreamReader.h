@@ -40,11 +40,8 @@ public:
     return 0;
   }
 
-#ifdef ESP32 // :-(
-  virtual void flush() {}
-#endif
-
 private:
+  ChunkedStreamReader(ChunkedStreamReader& other) : input(other.input) {} // disabled copying
   void readChunkSize();
 };
 

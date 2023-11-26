@@ -36,6 +36,9 @@ public:
   virtual void flush();
   virtual int availableForWrite();
 
+private:
+  BufferedClient(BufferedClient& other) : BufferedClientReader(other.client, nullptr, 0),
+    bp(other.client, (char*) nullptr, 0) {} // disable copying
 };
 
 #endif

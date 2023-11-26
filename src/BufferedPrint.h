@@ -25,9 +25,9 @@ class BufferedPrint : public PrintPlus {
 
 protected:
   Print &target;
-  uint8_t* buffer;
-  size_t size;
-  size_t pos;
+  uint8_t* buffer = nullptr;
+  size_t size = 0;
+  size_t pos = 0;
 
 public:
   BufferedPrint(Print &target, uint8_t* buffer, size_t size);
@@ -42,6 +42,8 @@ public:
 
   virtual int availableForWrite();
 
+private:
+  BufferedPrint(BufferedPrint& other) : target(other.target) {} // disabled copying
 };
 
 #endif

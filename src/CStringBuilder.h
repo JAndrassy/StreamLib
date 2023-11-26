@@ -23,9 +23,9 @@ repository https://github.com/jandrassy
 
 class CStringBuilder : public PrintPlus {
 
-  char* buffer;
-  size_t size;
-  size_t pos;
+  char* buffer = nullptr;
+  size_t size = 0;
+  size_t pos = 0;
 
 public:
   CStringBuilder(char* _buffer, size_t _size);
@@ -42,6 +42,8 @@ public:
 
   virtual int availableForWrite();
 
+private:
+  CStringBuilder(CStringBuilder& other) {} // disabled copying
 };
 
 #endif

@@ -26,10 +26,10 @@ class BufferedClientReader : public Client {
 
 protected:
   Client& client;
-  uint8_t* buffer;
-  size_t size;
-  size_t length;
-  size_t pos;
+  uint8_t* buffer = nullptr;
+  size_t size = 0;
+  size_t length = 0;
+  size_t pos = 0;
 
 public:
   BufferedClientReader(Client& client, uint8_t* buffer, size_t size);
@@ -50,6 +50,8 @@ public:
   virtual void flush();
   virtual int availableForWrite();
 
+private:
+  BufferedClientReader(BufferedClientReader& other) : client(other.client) {} // disable copying
 };
 
 #endif

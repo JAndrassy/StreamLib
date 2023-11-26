@@ -24,9 +24,9 @@ repository https://github.com/jandrassy
 class StringReadStream: public Stream {
 
 protected:
-  const char *str;
-  const bool progmem;
-  int length;
+  const char *str = nullptr;
+  const bool progmem = false;
+  int length = 0;
   int pos = 0;
 
 public:
@@ -43,9 +43,8 @@ public:
     return 0;
   }
 
-#ifdef ESP32 // :-(
-  virtual void flush() {}
-#endif
+private:
+  StringReadStream(StringReadStream& other) {} // disabled copying
 };
 
 #endif
