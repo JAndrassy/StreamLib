@@ -20,6 +20,7 @@ repository https://github.com/jandrassy
 #define _STREAMLIB_H_
 
 #include <BufferedPrint.h>
+#include <UnbufferedPrint.h>
 #include <ChunkedPrint.h>
 #include <CStringBuilder.h>
 #include <ChunkedStreamReader.h>

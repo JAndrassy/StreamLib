@@ -31,7 +31,7 @@ While the size of the chunk is known, the data of the chunk may be not received 
 
 The Arduino Print class for AVR doesn't have [printf function](http://www.cplusplus.com/reference/cstdio/printf/). The reasons for [not adding them](https://github.com/arduino/Arduino/pull/5938) are unknown. The Arduino esp8266 core has them. To fill this gap, the classes of this library have a common base class PrintPlus which extends the core Print class with two printf methods, one for formatting string from RAM and second for formatting string wrapped into F() macro for use from program memory.
 
-If you send a stream to a function and the function benefits from printf, use PrintPlus as a parameter type. The function then can use the printf methods and you can call the function with BufferedPrint, ChunkedPrint or CStringBuilder.
+If you send a stream to a function and the function benefits from printf, use PrintPlus as a parameter type. The function then can use the printf methods and you can call the function with BufferedPrint, UnbufferedPrint, ChunkedPrint or CStringBuilder.
 
 ```
 void eventsPrintJson(PrintPlus& stream, int ix) {
@@ -64,6 +64,16 @@ parameters:
 * `limit` is the maximum count of bytes/characters to copy. it is an optional parameter. 0 means unlimited.
 
 Return value is the count of copied bytes. 
+
+## UnbufferedPrint
+
+UnbufferedPrint class allows to wrap a stream to use only printf and copy methods of PrintPlus.
+
+```
+  UnbufferedPrint out(Serial);
+  out.printf("count of %s is %d\r\n", name, count);
+  out.copyFrom(client);
+```
 
 ## Providing string where Stream is required
 
