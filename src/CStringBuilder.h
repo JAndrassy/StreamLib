@@ -43,7 +43,9 @@ public:
   virtual int availableForWrite();
 
 private:
-  CStringBuilder(CStringBuilder& other) {} // disabled copying
+  CStringBuilder(CStringBuilder& other) { // disabled copying
+    (void) other;
+  }
 };
 
 #endif

@@ -37,6 +37,7 @@ public:
   unsigned long chunkAvailable();
 
   virtual size_t write(uint8_t b) {
+    (void) b;
     return 0;
   }
 

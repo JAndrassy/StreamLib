@@ -40,11 +40,14 @@ public:
   virtual int peek();
 
   virtual size_t write(uint8_t b) {
+    (void) b;
     return 0;
   }
 
 private:
-  StringReadStream(StringReadStream& other) {} // disabled copying
+  StringReadStream(StringReadStream& other) { // disabled copying
+    (void) other;
+  }
 };
 
 #endif
