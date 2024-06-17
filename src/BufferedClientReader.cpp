@@ -47,7 +47,8 @@ BufferedClientReader::operator bool() {
 
 int BufferedClientReader::available() {
 	if (pos == length && client.available()) {
-    length = client.read(buffer, size);
+    int l = client.read(buffer, size);
+    length = (l > 0) ? l : 0;   // some libraries return -1 if no data are available
     pos = 0;
 	}
 	return length - pos + client.available();
@@ -66,8 +67,13 @@ int BufferedClientReader::peek() {
 }
 
 int BufferedClientReader::read(uint8_t *buf, size_t _size) {
-  if (pos == length && (_size >= size || _size > (size_t) client.available()))
-    return client.read(buf, _size); // skip the internal buffer
+  if (pos == length && (_size >= size || _size > (size_t) client.available())) {
+    int length = client.read(buf, _size); // skip the internal buffer
+    if (length < 0) { // some libraries return -1 if no data are available
+      length = 0;
+    }
+    return length;
+  }
   for (size_t i = 0; i < _size; i++) {
     int b = read();
     if (b == -1)
