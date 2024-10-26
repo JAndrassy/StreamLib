@@ -109,6 +109,7 @@ void loop() {
         }
         chunkedResp.println(F("</body>\r\n</html>"));
         chunkedResp.end();
+        file.close();
       } else {
         char buff[RESPONSE_BUFFER_SIZE];
         BufferedPrint response(client, buff, sizeof(buff));
